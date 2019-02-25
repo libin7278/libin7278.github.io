@@ -359,7 +359,7 @@ App() 必须在 app.js 中调用，必须调用且只能调用一次。不然会
 <p>所以也被称为<strong>注册程序</strong></p>
 <p><code>App()</code> 必须在 <code>app.js</code> 中调用，必须调用且只能调用<strong>一次</strong>。不然会出现无法预期的后果。</p>
 <p>这个有点像安卓开发中的<code>Application</code>。只有一个而且调用一次。</p>
-<h1 id="参数说明"><a href="#参数说明" class="headerlink" title="参数说明"></a>参数说明</h1><table><br><thead><br><tr><br><th>属性</th><br><th>类型</th><br><th>描述</th><br><th>触发时机</th><br></tr><br></thead><br><tbody><br><tr><br><td><a href="#onlaunchobject">onLaunch</a></td><br><td>Function</td><br><td>生命周期回调—监听小程序初始化</td><br><td>小程序初始化完成时（全局只触发一次）</td><br></tr><br><tr><br><td><a href="#onshowobject">onShow</a></td><br><td>Function</td><br><td>生命周期回调—监听小程序显示</td><br><td>小程序启动，或从后台进入前台显示时</td><br></tr><br><tr><br><td><a href="#onhide">onHide</a></td><br><td>Function</td><br><td>生命周期回调—监听小程序隐藏</td><br><td>小程序从前台进入后台时</td><br></tr><br><tr><br><td><a href="#onerrorstring-error">onError</a></td><br><td>Function</td><br><td>错误监听函数</td><br><td>小程序发生脚本错误，或者 api 调用失败时触发，会带上错误信息</td><br></tr><br><tr><br><td><a href="#onpagenotfoundobject">onPageNotFound</a></td><br><td>Function</td><br><td>页面不存在监听函数</td><br><td>小程序要打开的页面不存在时触发，会带上页面信息回调该函数</td><br></tr><br><tr><br><td>其他</td><br><td>Any</td><br><td>开发者可以添加任意的函数或数据到 <code>Object</code> 参数中，用 <code>this</code> 可以访问</td><br><td></td><br></tr><br></tbody><br></table>
+<h1 id="参数说明"><a href="#参数说明" class="headerlink" title="参数说明"></a>参数说明</h1><table><thead><tr><th>属性</th><th>类型</th><th>描述</th><th>触发时机</th></tr></thead><tbody><tr><td><a href="#onlaunchobject">onLaunch</a></td><td>Function</td><td>生命周期回调—监听小程序初始化</td><td>小程序初始化完成时（全局只触发一次）</td></tr><tr><td><a href="#onshowobject">onShow</a></td><td>Function</td><td>生命周期回调—监听小程序显示</td><td>小程序启动，或从后台进入前台显示时</td></tr><tr><td><a href="#onhide">onHide</a></td><td>Function</td><td>生命周期回调—监听小程序隐藏</td><td>小程序从前台进入后台时</td></tr><tr><td><a href="#onerrorstring-error">onError</a></td><td>Function</td><td>错误监听函数</td><td>小程序发生脚本错误，或者 api 调用失败时触发，会带上错误信息</td></tr><tr><td><a href="#onpagenotfoundobject">onPageNotFound</a></td><td>Function</td><td>页面不存在监听函数</td><td>小程序要打开的页面不存在时触发，会带上页面信息回调该函数</td></tr><tr><td>其他</td><td>Any</td><td>开发者可以添加任意的函数或数据到 <code>Object</code> 参数中，用 <code>this</code> 可以访问</td><td></td></tr></tbody></table>
 
 
 <p><strong>前台</strong>、<strong>后台</strong>定义： 当用户点击左上角关闭，或者按了设备 Home 键离开微信，小程序并没有直接销毁，而是进入了后台；当再次进入微信或再次打开小程序，又会从后台进入前台。需要注意的是：只有当小程序进入后台一定时间，或者系统资源占用过高，才会被真正的销毁。</p>
@@ -407,8 +407,9 @@ console.log(appInstance.globalData) // I am global data
 </code></pre><blockquote>
 <p>不要在定义于 App() 内的函数中调用 getApp() ，使用 this 就可以拿到 app 实例。<br>通过 getApp() 获取实例之后，不要私自调用生命周期函数。</p>
 </blockquote>
-<p><strong>扫码关注公众号“伟大程序猿的诞生“，更多干货新鲜文章等着你～</strong><br><img src="http://img.blog.csdn.net/20171218195006434?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvZ2l0aHViXzMzMzA0MjYw/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" width="40%" alt><br><strong>公众号回复“资料获取”，获取更多干货哦～</strong></p>
-<p><strong><em>有问题添加本人微信号“fenghuokeji996” 或扫描博客导航栏本人二维码</em></strong></p>
+<p><strong>～～号外～～福利～～号外～～</strong><br><strong>程序员的福音：</strong> “老曾筋骨祛痛贴”，百年祖传配方，专治<em>腰间盘</em>、<em>肩周</em>、<em>颈椎</em>、<em>坐骨神经</em>、<em>腰腿疼痛</em>等，博主亲测效果非常棒，因长期久坐写代码，坐姿不规范导致脖子疼，腰椎疼，用过之后疼痛逐渐缓解，现在已无任何疼痛，用过后让你写代码一身轻松，so easy，妈妈再也不用担心我们写代码了。<br>购买链接： <a href="https://k.weidian.com/tja7GYzB" target="_blank" rel="noopener">https://k.weidian.com/tja7GYzB</a><br><img src="https://img-blog.csdnimg.cn/20190213230334214.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2dpdGh1Yl8zMzMwNDI2MA==" width="40%" alt></p>
+<p><strong>扫码下方二维码，关注公众号“伟大程序猿的诞生“，回复“膏药”领取优惠券</strong><br><strong>扫码关注公众号“伟大程序猿的诞生“，更多干货新鲜文章等着你～</strong><br><img src="http://img.blog.csdn.net/20171218195006434?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvZ2l0aHViXzMzMzA0MjYw/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" width="40%" alt><br><strong>公众号回复“资料获取”，获取更多干货哦～</strong><br><strong>公众号回复“膏药”，领取优惠券哦～</strong></p>
+<p><strong><em>有问题欢迎联系本人</em></strong></p>
 
             </div>
             <hr>
