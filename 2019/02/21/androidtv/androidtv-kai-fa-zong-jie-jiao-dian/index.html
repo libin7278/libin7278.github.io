@@ -1,0 +1,1298 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN">
+
+
+<head><meta name="generator" content="Hexo 3.8.0">
+    <meta charset="utf-8">
+    <meta name="keywords" content="Android TV 开发总结【焦点】, 李彬博客专栏">
+    <meta name="description" content="一、焦点获取首先，TV端的开发和我们手机端开发最大的区别就在于TV端存在焦点的概念。
+如下图：
+
+可想而知，手机端我们直接通过点击\长按某个区域处理响应事件处，但是TV端只能通过遥控器的上下左右来操控焦点，从而选中特定的区域处理相应事件。
+">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="renderer" content="webkit|ie-stand|ie-comp">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <title>Android TV 开发总结【焦点】 | 李彬博客专栏</title>
+    <link rel="icon" type="image/png" href="/favicon.png">
+
+    <link rel="stylesheet" type="text/css" href="/libs/awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="/libs/materialize/css/materialize.min.css">
+    <link rel="stylesheet" type="text/css" href="/libs/aos/aos.css">
+    <link rel="stylesheet" type="text/css" href="/libs/animate/animate.min.css">
+    <link rel="stylesheet" type="text/css" href="/libs/lightGallery/css/lightgallery.min.css">
+    <link rel="stylesheet" type="text/css" href="/css/matery.css">
+    <link rel="stylesheet" type="text/css" href="/css/my.css">
+    <style type="text/css">
+        
+    </style>
+
+    <script src="/libs/jquery/jquery-2.2.0.min.js"></script>
+<link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css"></head>
+
+
+<body>
+
+<header class="navbar-fixed">
+    <nav id="headNav" class="bg-color nav-transparent">
+        <div id="navContainer" class="container">
+            <div class="nav-wrapper">
+                <div class="brand-logo">
+                    <a href="/" class="waves-effect waves-light">
+                        
+                        <img src="/medias/logo.png" class="logo-img hide-on-small-only">
+                        
+                        <span class="logo-span">李彬博客专栏</span>
+                    </a>
+                </div>
+                
+
+<a href="#" data-activates="mobile-nav" class="button-collapse"><i class="fa fa-navicon"></i></a>
+<ul class="right">
+    
+    <li class="hide-on-med-and-down">
+        <a href="/" class="waves-effect waves-light">
+            
+            <i class="fa fa-home"></i>
+            
+            <span>首页</span>
+        </a>
+    </li>
+    
+    <li class="hide-on-med-and-down">
+        <a href="/tags" class="waves-effect waves-light">
+            
+            <i class="fa fa-tags"></i>
+            
+            <span>标签</span>
+        </a>
+    </li>
+    
+    <li class="hide-on-med-and-down">
+        <a href="/categories" class="waves-effect waves-light">
+            
+            <i class="fa fa-bookmark"></i>
+            
+            <span>分类</span>
+        </a>
+    </li>
+    
+    <li class="hide-on-med-and-down">
+        <a href="/archives" class="waves-effect waves-light">
+            
+            <i class="fa fa-archive"></i>
+            
+            <span>归档</span>
+        </a>
+    </li>
+    
+    <li class="hide-on-med-and-down">
+        <a href="/about" class="waves-effect waves-light">
+            
+            <i class="fa fa-user-circle-o"></i>
+            
+            <span>关于</span>
+        </a>
+    </li>
+    
+    <li class="hide-on-med-and-down">
+        <a href="/friends" class="waves-effect waves-light">
+            
+            <i class="fa fa-address-book"></i>
+            
+            <span>友情链接</span>
+        </a>
+    </li>
+    
+    <li>
+        <a id="toggleSearch" class="waves-effect waves-light">
+            <i id="searchIcon" class="mdi-action-search" title="搜索"></i>
+        </a>
+    </li>
+
+</ul>
+
+<div class="side-nav" id="mobile-nav">
+
+    <div class="mobile-head bg-color">
+        
+        <img src="/medias/logo.png" class="logo-img circle responsive-img">
+        
+        <div class="logo-name">李彬博客专栏</div>
+        <div class="logo-desc">
+            
+            一切的创造，源于热爱，回溯最初，在最简洁中传递情感，在代码里游戈人生...
+            
+        </div>
+    </div>
+
+    
+
+    <ul class="menu-list mobile-menu-list">
+        
+        <li>
+            <a href="/" class="waves-effect waves-light">
+                
+                <i class="fa fa-fw fa-home"></i>
+                
+                首页
+            </a>
+        </li>
+        
+        <li>
+            <a href="/tags" class="waves-effect waves-light">
+                
+                <i class="fa fa-fw fa-tags"></i>
+                
+                标签
+            </a>
+        </li>
+        
+        <li>
+            <a href="/categories" class="waves-effect waves-light">
+                
+                <i class="fa fa-fw fa-bookmark"></i>
+                
+                分类
+            </a>
+        </li>
+        
+        <li>
+            <a href="/archives" class="waves-effect waves-light">
+                
+                <i class="fa fa-fw fa-archive"></i>
+                
+                归档
+            </a>
+        </li>
+        
+        <li>
+            <a href="/about" class="waves-effect waves-light">
+                
+                <i class="fa fa-fw fa-user-circle-o"></i>
+                
+                关于
+            </a>
+        </li>
+        
+        <li>
+            <a href="/friends" class="waves-effect waves-light">
+                
+                <i class="fa fa-fw fa-address-book"></i>
+                
+                友情链接
+            </a>
+        </li>
+        
+        
+        <li><div class="divider"></div></li>
+        <li>
+            <a href="https://github.com/blinkfox/hexo-theme-matery" class="waves-effect waves-light" target="_blank">
+                <i class="fa fa-github-square fa-fw"></i>Fork Me
+            </a>
+        </li>
+        
+    </ul>
+
+    <div class="social-link">
+    <a href="https://github.com/libin7278" class="tooltipped" target="_blank" data-tooltip="访问我的GitHub" data-position="top" data-delay="50">
+        <i class="fa fa-github"></i>
+    </a>
+
+
+
+    <a href="mailto:524607562@qq.com" class="tooltipped" target="_blank" data-tooltip="邮件联系我" data-position="top" data-delay="50">
+        <i class="fa fa-envelope-open"></i>
+    </a>
+
+
+
+    <a href="tencent://AddContact/?fromId=50&fromSubId=1&subcmd=all&uin=524607562" class="tooltipped" data-tooltip="QQ联系我: 524607562" data-position="top" data-delay="50">
+        <i class="fa fa-qq"></i>
+    </a>
+
+
+
+    <a href="https://github.com/libin7278/libin7278.github.io/blob/master/imgs/wx_self_qr.jpeg?raw=true" class="tooltipped" data-tooltip="伟大程序猿的诞生" data-position="top" data-delay="50">
+        <i class="fa fa-wechat"></i>
+    </a>
+
+
+</div>
+</div>
+
+            </div>
+        </div>
+
+        
+        <style>
+    .nav-transparent .github-corner {
+        display: none !important;
+    }
+
+    .github-corner {
+        position: absolute;
+        z-index: 10;
+        top: 0;
+        right: 0;
+        border: 0;
+        transform: scale(1.1);
+    }
+
+    .github-corner svg {
+        color: #0f9d58;
+        fill: #fff;
+        height: 64px;
+        width: 64px;
+    }
+
+    .github-corner:hover .octo-arm {
+        animation: a 0.56s ease-in-out;
+    }
+
+    .github-corner .octo-arm {
+        animation: none;
+    }
+
+    @keyframes a {
+        0%,
+        to {
+            transform: rotate(0);
+        }
+        20%,
+        60% {
+            transform: rotate(-25deg);
+        }
+        40%,
+        80% {
+            transform: rotate(10deg);
+        }
+    }
+</style>
+
+<a href="https://github.com/blinkfox/hexo-theme-matery" class="github-corner tooltipped hide-on-med-and-down" target="_blank" data-tooltip="Fork Me" data-position="left" data-delay="50">
+    <svg viewbox="0 0 250 250" aria-hidden="true">
+        <path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"/>
+        <path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"/>
+        <path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"/>
+    </svg>
+</a>
+        
+    </nav>
+</header>
+
+
+
+
+
+<div class="bg-cover post-cover" style="background-image: url('/medias/featureimages/20.jpg')">
+    <div class="container">
+        <div class="row">
+            <div class="col s12 m12 l12">
+                <div class="brand">
+                    <div class="description center-align post-title">
+                        Android TV 开发总结【焦点】
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<main class="container content">
+
+    
+    <!-- 文章内容详情 -->
+<div id="artDetail">
+    <div class="card">
+        <div class="card-content article-info">
+            <div class="row tag-cate">
+                <div class="col s7">
+                    
+                    <div class="article-tag">
+                        
+                            <a href="/tags/AndroidTV/" target="_blank">
+                                <span class="chip bg-color">AndroidTV</span>
+                            </a>
+                        
+                    </div>
+                    
+                </div>
+                <div class="col s5 right-align">
+                    
+                    <div class="post-cate">
+                        <i class="fa fa-bookmark fa-fw icon-category"></i>
+                        
+                            <a href="/categories/AndroidTV/" class="post-category" target="_blank">
+                                AndroidTV
+                            </a>
+                        
+                    </div>
+                    
+                </div>
+            </div>
+
+            <div class="post-info">
+                <div class="post-date info-break-policy">
+                    <i class="fa fa-calendar-minus-o fa-fw"></i>发布日期:&nbsp;&nbsp;
+                    2019-02-21
+                </div>
+
+                
+				
+				
+                    <div id="busuanzi_container_page_pv" class="info-break-policy">
+                        <i class="fa fa-eye fa-fw"></i>阅读次数:&nbsp;&nbsp;
+                        <span id="busuanzi_value_page_pv"></span>
+                    </div>
+				
+            </div>
+        </div>
+        <hr class="clearfix">
+        <div class="card-content article-card-content">
+            <div id="articleContent">
+                <h1 id="一、焦点获取"><a href="#一、焦点获取" class="headerlink" title="一、焦点获取"></a>一、焦点获取</h1><p>首先，TV端的开发和我们手机端开发最大的区别就在于TV端存在焦点的概念。</p>
+<p>如下图：</p>
+<p><img src="https://user-gold-cdn.xitu.io/2018/6/25/164362d6e0f20882?w=524&amp;h=194&amp;f=gif&amp;s=1255532" alt="图片来源于网络"></p>
+<p>可想而知，手机端我们直接通过点击\长按某个区域处理响应事件处，但是TV端只能通过遥控器的上下左右来操控焦点，从而选中特定的区域处理相应事件。</p>
+<p>在TV开发中没有以前我手机端的dispatchTouchEvent、onInterceptTouchEvent、onTouchEvent 事件来分发，而需要使用dispatchKeyEvent、onKeyDown、onKeyLisenter 等事件来分发处理焦点事件传递。</p>
+<p>然而TV端焦点没有什么好办法可以全局控制焦点，需要我们自己来想办法规定焦点走向，一旦焦点没有处理好就会造成焦点丢失。</p>
+<blockquote>
+<p>android提供了一些焦点相关的属性，在现有的框架层下通过设置View的属性来获得焦点：</p>
+<ul>
+<li>android:focusable：设置一个控件能否获得焦点</li>
+<li>android:nextFocusDown：(当按下键时)下一个获得焦点的控件</li>
+<li>android:nextFocusDown：(当按下键时)下一个获得焦点的控件</li>
+<li>android:nextFocusLeft：(当按下键时)下一个获得焦点的控件</li>
+<li>android:nextFocusRight：(当按下键时)下一个获得焦点的控<br><strong>注意：</strong>如果按下某个方向键时，想让焦点停留在自身，可以使用<code>android:nextFocusRight:&quot;@null&quot;</code>或者<code>android:nextFocusRight:&quot;@id/自身id&quot;</code></li>
+</ul>
+</blockquote>
+<p>栗子:如下图：</p>
+<p>我们想要实现<strong>firstView</strong>（按右键）–&gt;<strong>secondView</strong>(按下键)–&gt;<strong>threadView</strong>（按上键）–&gt;<strong>firstView</strong></p>
+<p><img src="https://user-gold-cdn.xitu.io/2018/6/25/16435fbde8759b15?w=869&h=524&f=png&s=7699" width="70%" alt></p>
+<blockquote>
+<p><strong>步骤：</strong></p>
+<ul>
+<li>第一步：让这<strong>firstView、secondView、threadView</strong>获取焦点</li>
+<li>第二步：控制这三个View的移动轨迹</li>
+<li>注意：fourthView没有涉及到焦点，我们不用做任何处理</li>
+</ul>
+</blockquote>
+<p>示例：</p>
+<pre><code>&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
+&lt;android.support.constraint.ConstraintLayout xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;
+    android:layout_width=&quot;match_parent&quot;
+    android:layout_height=&quot;match_parent&quot;&gt;
+
+    &lt;View
+        android:id=&quot;@+id/firstView&quot;
+        android:layout_width=&quot;40dp&quot;
+        android:layout_height=&quot;40dp&quot;
+        android:focusable=&quot;true&quot;
+        android:nextFocusDown=&quot;@null&quot;
+        android:nextFocusLeft=&quot;@null&quot;
+        android:nextFocusRight=&quot;@id/secondView&quot;
+        android:nextFocusUp=&quot;@null&quot; /&gt;
+
+    &lt;View
+        android:id=&quot;@+id/secondView&quot;
+        android:layout_width=&quot;60dp&quot;
+        android:layout_height=&quot;60dp&quot;
+        android:focusable=&quot;true&quot;
+        android:nextFocusDown=&quot;@id/threadView&quot;
+        android:nextFocusLeft=&quot;@null&quot;
+        android:nextFocusRight=&quot;@null&quot;
+        android:nextFocusUp=&quot;@null&quot; /&gt;
+
+    &lt;View
+        android:id=&quot;@+id/threadView&quot;
+        android:layout_width=&quot;30dp&quot;
+        android:layout_height=&quot;30dp&quot;
+        android:focusable=&quot;true&quot;
+        android:nextFocusDown=&quot;@null&quot;
+        android:nextFocusLeft=&quot;@null&quot;
+        android:nextFocusRight=&quot;@null&quot;
+        android:nextFocusUp=&quot;@id/firstView&quot; /&gt;
+
+    &lt;View
+        android:id=&quot;@+id/fourthView&quot;
+        android:layout_width=&quot;100dp&quot;
+        android:layout_height=&quot;40dp&quot; /&gt;
+&lt;/android.support.constraint.ConstraintLayout&gt;
+</code></pre><p>也可以在代码中设置：</p>
+<pre><code>threadView.setNextFocusLeftId(R.id.firstView);
+secondView.setNextFocusDownId(R.id.threadView);
+</code></pre><blockquote>
+<p><strong>注意：</strong></p>
+<ul>
+<li>开发过程中我们有时需要布局初始化就有一个View是聚焦状态，那么可以使用<code>requestFocus()</code>来请求焦点。</li>
+</ul>
+</blockquote>
+<p>那么此时问题来了，我们肉眼如何知道焦点在哪一个View上？</p>
+<p>此时就需要我们对焦点选中的View进行样式改变，有一下两种方法：</p>
+<h1 id="二、聚焦时View样式"><a href="#二、聚焦时View样式" class="headerlink" title="二、聚焦时View样式"></a>二、聚焦时View样式</h1><p><strong>方法一：</strong></p>
+<pre><code> android:background：设置背景的drawable
+ android:textColor：设置字体颜色
+</code></pre><p>对应的xml文件：<br>drawable的xml文件，焦点选中时显示为<em>keyboard_add</em>，否则显示为<em>keyboard_add_sel</em></p>
+<pre><code>&lt;selector xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;&gt;
+    &lt;item android:drawable=&quot;@drawable/keyboard_add_sel&quot; android:state_focused=&quot;true&quot; /&gt;
+    &lt;item android:drawable=&quot;@drawable/keyboard_add&quot; android:state_focused=&quot;false&quot;/&gt;
+&lt;/selector&gt;
+</code></pre><p>color的xml文件，焦点选中时显示#4194ff（蓝色），否则显示#29ffffff（灰色）</p>
+<pre><code>&lt;selector xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;&gt;
+    &lt;item android:color=&quot;#4194ff&quot; android:state_focused=&quot;true&quot;/&gt;
+    &lt;item android:color=&quot;#29ffffff&quot; android:state_focused=&quot;false&quot;/&gt;
+&lt;/selector&gt;
+</code></pre><p><strong>方法二：</strong></p>
+<p>对该View进行焦点监听（setOnFocusChangeListener），在该监听事件中进行处理</p>
+<pre><code>view.setOnFocusChangeListener(new View.OnFocusChangeListener()
+{
+    @Override
+    public void onFocusChange(View view, boolean hasFocus)
+    {
+        if(hasFocus){
+            //获得焦点
+            view.xxxxx();
+        }else{
+            //失去焦点
+            view.xxxxx();
+        }
+    }
+});
+</code></pre><h1 id="三、按键事件如何分发？"><a href="#三、按键事件如何分发？" class="headerlink" title="三、按键事件如何分发？"></a>三、按键事件如何分发？</h1><p>首先看一下经常会遇到的坑，带着问题去探究整个过程</p>
+<p>尽管官方提供了基本用法，但是我们开发中任然会遇到焦点相关的问题：</p>
+<blockquote>
+<ul>
+<li>我明明指定了焦点，为什么焦点还是丢失了？</li>
+<li>onKeyDown为什么有时获取不到按键事件？</li>
+<li>没有做任何焦点处理的View会获取焦点？</li>
+<li>对RecycleView设置nextFocusDown没有效果？</li>
+</ul>
+</blockquote>
+<p>接下来我们带着问题从源码角度来探究一下：</p>
+<p>在手机端，我们通过滑动，触摸，长按等，会产生一个触摸事件（MotionEvent）。</p>
+<p>同理：在遥控器上我们按“上”，“下”，“左”，“右”，“ok”，“返回”等按键时，会产生一个按键事件（KeyEvent），焦点的处理就在KeyEvent中分发处理。</p>
+<p>所以此时我们需要从ViewRootImpl入手，来具体分析焦点是如何分发的？。那么此时有同学会问，为什么是从ViewRootImpl入手？</p>
+<h2 id="3-1-什么是ViewRootImpl？"><a href="#3-1-什么是ViewRootImpl？" class="headerlink" title="3.1 什么是ViewRootImpl？"></a>3.1 什么是ViewRootImpl？</h2><p>官方定义：The top of a view hierarchy, implementing the needed protocol between View and the WindowManager.</p>
+<p>翻译： 视图层次结构的顶部，在视图和窗口管理器之间实现所需的协议。</p>
+<p><strong>这里简单总结一下几点：</strong></p>
+<blockquote>
+<ul>
+<li>1、<code>ViewRootImpl</code>是链接<code>WindowManager</code>和<code>DecorView</code>的纽带</li>
+<li>2、完成<code>View</code>的绘制，包括<code>measure`</code>、layout<code>、</code>draw`过程。</li>
+<li>3、向<code>DecorView</code>分发收到的用户发起的<code>event</code>事件，如按键，触屏等事件。</li>
+</ul>
+</blockquote>
+<p>ViewRootImpl本身并不是一个View，可以看作是View树的管理者。而这里的成员变量mView就是DecorView，它指向的对象跟Window和Activity的mDecor指向的对象是同一个对象。所有的View组成了一个View树，每一个View都是树中的一个节点，如下图所示：</p>
+<p><img src="https://user-gold-cdn.xitu.io/2018/6/28/164443d7b898b296?w=539&amp;h=437&amp;f=png&amp;s=30616" alt><br>最上层的根是DecorView，中间是各ViewGroup，最下层是View。</p>
+<p>所以我们知道知道<code>keyevent</code>的分发源头是<code>ViewRootImpl</code>，它是整个View树的管理者，首先走了mView的dispatchKeyEvent，也就是从DecorView开始进行KeyEvent的分发。</p>
+<h2 id="3-2-keyevent分发流程？"><a href="#3-2-keyevent分发流程？" class="headerlink" title="3.2 keyevent分发流程？"></a>3.2 keyevent分发流程？</h2><p>Android焦点事件的分发是在ViewRootImpl的内部类ViewPostImeInputStage中的processKeyEvent方法进行的，具体流程看代码：</p>
+<p><strong>本文以（API27）为例</strong></p>
+<h3 id="（1）processKeyEvent方法的具体实现"><a href="#（1）processKeyEvent方法的具体实现" class="headerlink" title="（1）processKeyEvent方法的具体实现"></a>（1）processKeyEvent方法的具体实现</h3><pre><code>private int processKeyEvent(QueuedInputEvent q) {
+    final KeyEvent event = (KeyEvent)q.mEvent;
+
+    //由dispatchKeyEvent进行焦点的分发，如果dispatchKeyEvent方法返回true，那么下面的焦点查找步骤就不会继续了。
+    //这里mView是Activity的顶层容器DecorView，是一FrameLayout。
+    //所以这里的dispatchKeyEvent方法执行的是ViewGroup的dispatchKeyEvent()方法
+    if (mView.dispatchKeyEvent(event)) {
+        return FINISH_HANDLED;
+    }
+
+    // 是否终止事件
+    // 当根视图不存在就会停止下面的步骤
+    // 属于保护措施
+    if (shouldDropInputEvent(q)) {
+        return FINISH_NOT_HANDLED;
+    }
+
+    int groupNavigationDirection = 0;
+
+    //对TAB键做特殊处理
+    //判断仅按下TAB还是TAB和其他键的组合
+    //metaStateHasModifiers()方法根据指定的META状态按下指定的按键键，则返回true.如果按下不同的修改键组合，则返回false.
+    //通过下面的方法判断groupNavigationDirection的方向
+    if (event.getAction() == KeyEvent.ACTION_DOWN
+            &amp;&amp; event.getKeyCode() == KeyEvent.KEYCODE_TAB) {
+        if (KeyEvent.metaStateHasModifiers(event.getMetaState(), KeyEvent.META_META_ON)) {
+            groupNavigationDirection = View.FOCUS_FORWARD;
+        } else if (KeyEvent.metaStateHasModifiers(event.getMetaState(),
+                KeyEvent.META_META_ON | KeyEvent.META_SHIFT_ON)) {
+            groupNavigationDirection = View.FOCUS_BACKWARD;
+        }
+    }
+
+    ... ... ...
+
+    // 应用 fallback 策略
+    // 具体实现见PhoneFallbackEventHandler中dispatchKeyEvent()方法
+    // 主要是对媒体键，音量键，通话键等做处理，如果是这些按键则会停止下面的步骤
+    if (mFallbackEventHandler.dispatchKeyEvent(event)) {
+        return FINISH_HANDLED;
+    }
+
+    // 自动追踪焦点
+    // 该部分是重点
+    if (event.getAction() == KeyEvent.ACTION_DOWN) {
+        if (groupNavigationDirection != 0) {
+            //如果是TAB键则groupNavigationDirection不为0，进行如下操作（这里不做重点解析）
+            if (performKeyboardGroupNavigation(groupNavigationDirection)) {
+                return FINISH_HANDLED;
+            }
+        } else {
+            //此处是对我们按键焦点处理的重点
+            //下面我们进入该方法详细去看一下，详见（2）
+            if (performFocusNavigation(event)) {
+                return FINISH_HANDLED;
+            }
+        }
+    }
+    return FORWARD;
+}
+
+</code></pre><h3 id="（2）performFocusNavigation方法的具体实现（主要用于记录方向）"><a href="#（2）performFocusNavigation方法的具体实现（主要用于记录方向）" class="headerlink" title="（2）performFocusNavigation方法的具体实现（主要用于记录方向）"></a>（2）performFocusNavigation方法的具体实现（主要用于记录方向）</h3><p>我们接下来看一下<code>performFocusNavigation①</code>方法：</p>
+<pre><code>private boolean performFocusNavigation(KeyEvent event) {
+    //direction用来记录方向的值，用来进行后面的焦点查找
+    int direction = 0;
+    switch (event.getKeyCode()) {
+        case KeyEvent.KEYCODE_DPAD_LEFT:
+            //根据指定的元状态没有按下修饰符键,则返回true
+            if (event.hasNoModifiers()) {
+                direction = View.FOCUS_LEFT;
+            }
+            break;
+        case KeyEvent.KEYCODE_DPAD_RIGHT:
+            if (event.hasNoModifiers()) {
+                direction = View.FOCUS_RIGHT;
+            }
+            break;
+        case KeyEvent.KEYCODE_DPAD_UP:
+            if (event.hasNoModifiers()) {
+                direction = View.FOCUS_UP;
+            }
+            break;
+        case KeyEvent.KEYCODE_DPAD_DOWN:
+            if (event.hasNoModifiers()) {
+                direction = View.FOCUS_DOWN;
+            }
+            break;
+        case KeyEvent.KEYCODE_TAB:
+            if (event.hasNoModifiers()) {
+                direction = View.FOCUS_FORWARD;
+            } else if (event.hasModifiers(KeyEvent.META_SHIFT_ON)) {
+                direction = View.FOCUS_BACKWARD;
+            }
+            break;
+    }
+    //给定了direction（遥控器按键按下的方向），接下来就是焦点寻找
+    if (direction != 0) {
+        //找到当前聚焦的View 下面会详细讲解，见（3）
+        View focused = mView.findFocus();
+        if (focused != null) {
+            //如果focused不为空，说明找到了焦点，接着focusSearch会把direction（遥控器按键按下的方向）作为参数，找到特定方向下一个将要获取焦点的view，最后如果该view不为空，那么就让该view获取焦点。
+            //后面详细介绍focusSearch()具体方法，见（4）
+            View v = focused.focusSearch(direction);
+            if (v != null &amp;&amp; v != focused) {
+                focused.getFocusedRect(mTempRect);
+                if (mView instanceof ViewGroup) {
+                    ((ViewGroup) mView).offsetDescendantRectToMyCoords(
+                            focused, mTempRect);
+                    ((ViewGroup) mView).offsetRectIntoDescendantCoords(
+                            v, mTempRect);
+                }
+                if (v.requestFocus(direction, mTempRect)) {
+                    playSoundEffect(SoundEffectConstants
+                            .getContantForFocusDirection(direction));
+                    return true;
+                }
+            }
+
+            // Give the focused view a last chance to handle the dpad key.
+            if (mView.dispatchUnhandledMove(focused, direction)) {
+                return true;
+            }
+        } else {
+            if (mView.restoreDefaultFocus()) {
+                return true;
+            }
+        }
+    }
+    return false;
+}
+</code></pre><h3 id="（3）findFocus方法的具体实现（查找到当前聚焦的view）"><a href="#（3）findFocus方法的具体实现（查找到当前聚焦的view）" class="headerlink" title="（3）findFocus方法的具体实现（查找到当前聚焦的view）"></a>（3）findFocus方法的具体实现（查找到当前聚焦的view）</h3><p>我们来看一下详细看一下<code>findFocus()</code><br><img src="https://user-gold-cdn.xitu.io/2018/6/28/164442cb492e6360?w=1255&amp;h=417&amp;f=png&amp;s=70799" alt><br>我们看到findFocus有viewGroup和view的：<br>其实就是在一层一层往下查找已经获取焦点的子View（一定要先理解视图树）</p>
+<pre><code>//viewGroup焦点判断
+@Override
+public View findFocus() {
+    if (DBG) {
+        System.out.println(&quot;Find focus in &quot; + this + &quot;: flags=&quot;
+                + isFocused() + &quot;, child=&quot; + mFocused);
+    }
+
+    if (isFocused()) {
+        return this;
+    }
+
+    if (mFocused != null) {
+        return mFocused.findFocus();
+    }
+    return null;
+}
+
+</code></pre><pre><code>//view焦点判断
+public View findFocus() {
+    return (mPrivateFlags &amp; PFLAG_FOCUSED) != 0 ? this : null;
+}
+</code></pre><p>说明：判断view是否获取焦点的isFocused()方法， (mPrivateFlags &amp; PFLAG_FOCUSED) != 0 和view 的findFocus()方法是一致的。</p>
+<pre><code>public boolean isFocused() {
+    return (mPrivateFlags &amp; PFLAG_FOCUSED) != 0;
+}
+</code></pre><p>isFocused()方法的作用是判断view是否已经获取焦点，如果viewGroup已经获取到了焦点，那么返回本身即可，否则通过mFocused的findFocus()方法来找焦点。mFocused其实就是ViewGroup中获取焦点的子view，如果mView不是ViewGourp的话，findFocus其实就是判断本身是否已经获取焦点，如果已经获取焦点了，返回本身。</p>
+<p><strong>此时我们已经找到了当前获得焦点的View，接下来就是说按照给定的方向去寻找下一个即将获得焦点的view</strong></p>
+<h3 id="（4）focusSearch方法的具体实现"><a href="#（4）focusSearch方法的具体实现" class="headerlink" title="（4）focusSearch方法的具体实现"></a>（4）focusSearch方法的具体实现</h3><p>通过View的focusSearch方法找到下一个获取焦点的View，那么到底是如何查找的？往下看：</p>
+<pre><code>//view中
+public View focusSearch(@FocusRealDirection int direction) {
+    if (mParent != null) {
+        return mParent.focusSearch(this, direction);
+    } else {
+        return null;
+    }
+}
+</code></pre><p>View并不会直接去找，而是交给它的parent去找。</p>
+<pre><code>//viewGroup中
+@Override
+public View focusSearch(View focused, int direction) {
+    if (isRootNamespace()) {
+        //判断是否是顶层view，是则执行以下算法
+        return FocusFinder.getInstance().findNextFocus(this, focused, direction);
+    } else if (mParent != null) {
+        return mParent.focusSearch(focused, direction);
+    }
+    return null;
+}
+</code></pre><p>判断是否为顶层布局（isRootNamespace()方法），若是则执行对应方法，若不是则继续向上寻找，说明会从内到外的一层层进行判断，直到最外层的布局为止。</p>
+<p>最终会调用viewGroup的FocusFinder来找计算下一个获得焦点的view。</p>
+<h3 id="（5）findNextFocus方法的具体实现"><a href="#（5）findNextFocus方法的具体实现" class="headerlink" title="（5）findNextFocus方法的具体实现"></a>（5）findNextFocus方法的具体实现</h3><pre><code>// FocusFinder.java
+public final View findNextFocus(ViewGroup root, View focused, int direction) {
+    return findNextFocus(root, focused, null, direction);
+}
+
+//root是上面isRootNamespace()为true的ViewGroup
+//focused是当前焦点视图
+private View findNextFocus(ViewGroup root, View focused, Rect focusedRect, int direction) {
+    View next = null;
+    ViewGroup effectiveRoot = getEffectiveRoot(root, focused);
+    if (focused != null) {
+        // 优先从xml或者代码中指定focusid的View中找
+        next = findNextUserSpecifiedFocus(effectiveRoot, focused, direction);
+    }
+    if (next != null) {
+        return next;
+    }
+    ArrayList&lt;View&gt; focusables = mTempList;
+    try {
+        focusables.clear();
+        effectiveRoot.addFocusables(focusables, direction);
+        if (!focusables.isEmpty()) {
+            //其次，根据算法去找，原理就是找在方向上最近的View
+            next = findNextFocus(effectiveRoot, focused, focusedRect, direction, focusables);
+        }
+    } finally {
+        focusables.clear();
+    }
+    return next;
+}
+</code></pre><blockquote>
+<p>从上面可以看出</p>
+<ul>
+<li>（1）优先找开发者指定的下一个focus的视图 ，就是在xml或者代码中指定NextFocusDirection Id的视图</li>
+<li>（2）其次，根据算法去找，原理就是找在方向上最近的视图</li>
+</ul>
+</blockquote>
+<p>我们这里分开两个方法看<code>findNextUserSpecifiedFocus()</code>和<code>findNextFocus()</code></p>
+<h3 id="（6）findNextUserSpecifiedFocus-从指定focusid的View中找"><a href="#（6）findNextUserSpecifiedFocus-从指定focusid的View中找" class="headerlink" title="（6）findNextUserSpecifiedFocus() 从指定focusid的View中找"></a>（6）findNextUserSpecifiedFocus() 从指定focusid的View中找</h3><pre><code>//FocusFinder.java
+private View findNextUserSpecifiedFocus(ViewGroup root, View focused, int direction) {
+    // 寻找用户定义的下一个焦点View
+    View userSetNextFocus = focused.findUserSetNextFocus(root, direction);
+    View cycleCheck = userSetNextFocus;
+    boolean cycleStep = true; // we want the first toggle to yield false
+    while (userSetNextFocus != null) {
+        if (userSetNextFocus.isFocusable()
+                &amp;&amp; userSetNextFocus.getVisibility() == View.VISIBLE
+                &amp;&amp; (!userSetNextFocus.isInTouchMode()
+                        || userSetNextFocus.isFocusableInTouchMode())) {
+            return userSetNextFocus;
+        }
+        userSetNextFocus = userSetNextFocus.findUserSetNextFocus(root, direction);
+        if (cycleStep = !cycleStep) {
+            cycleCheck = cycleCheck.findUserSetNextFocus(root, direction);
+            if (cycleCheck == userSetNextFocus) {
+                // found a cycle, user-specified focus forms a loop and none of the views
+                // are currently focusable.
+                break;
+            }
+        }
+    }
+    return null;
+}
+</code></pre><p><code>findNextUserSpecifiedFocus()</code>方法会执行focused(即当前获取焦点的View)的findUserSetNextFocus方法，如果该方法返回的View不为空，且isFocusable = true &amp;&amp; isInTouchMode()=true的话，FocusFinder找到的焦点就是findNextUserSpecifiedFocus()返回的View。</p>
+<pre><code>//View.java
+findUserSetNextFocus(View root, @FocusDirection int direction) {
+    switch (direction) {
+        case FOCUS_LEFT:
+            if (mNextFocusLeftId == View.NO_ID) return null;
+            return findViewInsideOutShouldExist(root, mNextFocusLeftId);
+        case FOCUS_RIGHT:
+            if (mNextFocusRightId == View.NO_ID) return null;
+            return findViewInsideOutShouldExist(root, mNextFocusRightId);
+        case FOCUS_UP:
+            if (mNextFocusUpId == View.NO_ID) return null;
+            return findViewInsideOutShouldExist(root, mNextFocusUpId);
+        case FOCUS_DOWN:
+            if (mNextFocusDownId == View.NO_ID) return null;
+            return findViewInsideOutShouldExist(root, mNextFocusDownId);
+        case FOCUS_FORWARD:
+            if (mNextFocusForwardId == View.NO_ID) return null;
+            return findViewInsideOutShouldExist(root, mNextFocusForwardId);
+        case FOCUS_BACKWARD: {
+            if (mID == View.NO_ID) return null;
+            final int id = mID;
+            return root.findViewByPredicateInsideOut(this, new Predicate&lt;View&gt;() {
+                @Override
+                public boolean test(View t) {
+                    return t.mNextFocusForwardId == id;
+                }
+            });
+        }
+    }
+    return null;
+}
+</code></pre><p>findUserSetNextFocus就是通过设置的id去找view，比如：按了“左”方向键，如果设置了mNextFocusLeftId，则会通过findViewInsideOutShouldExist去找这个View。</p>
+<p>来看看findViewInsideOutShouldExist做了什么?</p>
+<pre><code>//View.java
+private View findViewInsideOutShouldExist(View root, int id) {
+    if (mMatchIdPredicate == null) {
+        // 可以理解为一个判定器，如果id匹配则判定成功
+        mMatchIdPredicate = new MatchIdPredicate();
+    }
+    mMatchIdPredicate.mId = id;
+    View result = root.findViewByPredicateInsideOut(this, mMatchIdPredicate);
+    ...
+    return result;
+}
+
+public final View findViewByPredicateInsideOut(View start, Predicate&lt;View&gt; predicate) {
+    View childToSkip = null;
+    for (;;) {
+
+        // 从当前起始节点开始寻找（ViewGroup是遍历自己的child），寻找id匹配的View
+        View view = start.findViewByPredicateTraversal(predicate, childToSkip);
+        if (view != null || start == this) {
+            return view;
+        }
+
+        ViewParent parent = start.getParent();
+        if (parent == null || !(parent instanceof View)) {
+            return null;
+        }
+
+        // 如果如果当前节点没有，则往上一级，从自己的parent中查找，并跳过自己
+        childToSkip = start;
+        start = (View) parent;
+    }
+}
+
+protected View findViewByPredicateTraversal(Predicate&lt;View&gt; predicate, View childToSkip) {
+    if (predicate.apply(this)) {
+        return this;
+    }
+    return null;
+}
+</code></pre><p>// ViewGroup</p>
+<pre><code>@Override
+protected View findViewByPredicateTraversal(Predicate&lt;View&gt; predicate, View childToSkip) {
+    if (predicate.apply(this)) {
+        return this;
+    }
+
+    final View[] where = mChildren;
+    final int len = mChildrenCount;
+
+    for (int i = 0; i &lt; len; i++) {
+        View v = where[i];
+
+        if (v != childToSkip &amp;&amp; (v.mPrivateFlags &amp; PFLAG_IS_ROOT_NAMESPACE) == 0) {
+            v = v.findViewByPredicate(predicate);
+
+            if (v != null) {
+                return v;
+            }
+        }
+    }
+
+    return null;
+}
+</code></pre><p>可以看到，findViewInsideOutShouldExist这个方法从当前指定视图去寻找指定id的视图。首先从自己开始向下遍历，如果没找到则从自己的parent开始向下遍历，直到找到id匹配的视图为止。</p>
+<h3 id="（7）findNextFocus-根据算法去找"><a href="#（7）findNextFocus-根据算法去找" class="headerlink" title="（7）findNextFocus()根据算法去找"></a>（7）findNextFocus()根据算法去找</h3><p>如果开发者没有指定nextFocusId，则用findNextFocus找指定方向上最近的视图<br>看一下这里的用法：</p>
+<pre><code>//FocusFinder.java
+private View findNextFocus(ViewGroup root, View focused, Rect focusedRect, int direction) {
+    View next = null;
+    ViewGroup effectiveRoot = getEffectiveRoot(root, focused);
+    if (focused != null) {
+        next = findNextUserSpecifiedFocus(effectiveRoot, focused, direction);
+    }
+    if (next != null) {
+        return next;
+    }
+    ArrayList&lt;View&gt; focusables = mTempList;
+    try {
+        focusables.clear();
+        //找到所有isFocusable的View
+        effectiveRoot.addFocusables(focusables, direction);
+        if (!focusables.isEmpty()) {
+            next = findNextFocus(effectiveRoot, focused, focusedRect, direction, focusables);
+        }
+    } finally {
+        focusables.clear();
+    }
+    return next;
+}
+</code></pre><p>这里就不对findNextFocus()具体展开了，大概讲一下步骤：</p>
+<blockquote>
+<p><strong>findNextFocus():</strong></p>
+<ul>
+<li>(1)遍历找出所有isFocusable的视图</li>
+<li>(2)将focused视图的坐标系，转换到root的坐标系中，统一坐标，以便进行下一步的计算</li>
+<li>(3)进行一次遍历比较，得到最“近”的视图作为下一个焦点视图</li>
+</ul>
+</blockquote>
+<h2 id="3-3-keyevent分发流程总结"><a href="#3-3-keyevent分发流程总结" class="headerlink" title="3.3 keyevent分发流程总结"></a>3.3 keyevent分发流程总结</h2><blockquote>
+<ul>
+<li>1、ViewRootImpl的processKeyEvent方法获取按键事件</li>
+<li>2、判断ViewGroup的dispatchKeyEvent()方法是否消费了事件是则不往下分发，终止。</li>
+<li>3、判断是否是一些特殊按键如：接听，挂断，音量等</li>
+<li>4、如果没有消费事件，那么焦点就会交给系统来处理</li>
+<li>5、Android底层先会记录按键的方向</li>
+<li>6、DecorView会从顶部一层一层往下调用findFocus方法找到当前获取焦点的View</li>
+<li>7、通过focusSearch从内到外层层寻找下一个焦点view，直到顶层为止，具体算法在FocusFinder</li>
+<li>8、FocusFinder会根据用户设置的id，优先查找，如果没有设置则通过系统算法找到最近的焦点view</li>
+</ul>
+</blockquote>
+<h2 id="3-4-处理焦点的时机"><a href="#3-4-处理焦点的时机" class="headerlink" title="3.4 处理焦点的时机"></a>3.4 处理焦点的时机</h2><p>结合KeyEvent事件的流转，对处理焦点的时机做了如下排序：</p>
+<blockquote>
+<ul>
+<li>1、dispatchKeyEvent</li>
+<li>2、mOnKeyListener.onKey回调</li>
+<li>3、onKeyDown/onKeyUp</li>
+<li>4、focusSearch</li>
+<li>5、指定nextFocusId</li>
+<li>6、系统自动从所有isFocusable的视图中找下一个焦点视图<br>以上任一处都可以指定焦点，一旦使用了就不再往下走。</li>
+</ul>
+</blockquote>
+<p><strong>～～号外～～福利～～号外～～</strong><br><strong>程序员的福音：</strong> “老曾筋骨祛痛贴”，百年祖传配方，专治<em>腰间盘</em>、<em>肩周</em>、<em>颈椎</em>、<em>坐骨神经</em>、<em>腰腿疼痛</em>等，博主亲测效果非常棒，因长期久坐写代码，坐姿不规范导致脖子疼，腰椎疼，用过之后疼痛逐渐缓解，现在已无任何疼痛，用过后让你写代码一身轻松，so easy，妈妈再也不用担心我们写代码了。<br>购买链接： <a href="https://k.weidian.com/tja7GYzB" target="_blank" rel="noopener">https://k.weidian.com/tja7GYzB</a><br><img src="https://img-blog.csdnimg.cn/20190213230334214.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2dpdGh1Yl8zMzMwNDI2MA==" width="40%" alt></p>
+<p><strong>扫码下方二维码，关注公众号“伟大程序猿的诞生“，回复“膏药”领取优惠券</strong><br><strong>扫码关注公众号“伟大程序猿的诞生“，更多干货新鲜文章等着你～</strong><br><img src="http://img.blog.csdn.net/20171218195006434?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvZ2l0aHViXzMzMzA0MjYw/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" width="40%" alt><br><strong>公众号回复“资料获取”，获取更多干货哦～</strong><br><strong>公众号回复“膏药”，领取优惠券哦～</strong></p>
+<p><strong><em>有问题添加本人微信号“fenghuokeji996” 或扫描博客导航栏本人二维码</em></strong></p>
+<hr>
+<p>title: Android TV 开发总结【RecycleView】<br>date: 2019-02-21 14:00:36<br>tags: AndroidTV</p>
+<h2 id="categories-AndroidTV"><a href="#categories-AndroidTV" class="headerlink" title="categories: AndroidTV"></a>categories: AndroidTV</h2>
+            </div>
+            <hr>
+
+            
+            <style>
+    #reward {
+        margin: 40px 0;
+        text-align: center;
+    }
+
+    #reward .reward-link {
+        font-size: 1.88rem;
+    }
+
+    #reward .btn-floating:hover {
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2), 0 5px 15px rgba(0, 0, 0, 0.2);
+    }
+
+    #rewardModal {
+        width: 320px;
+        height: 350px;
+    }
+
+    #rewardModal .reward-title {
+        margin: 15px auto;
+        padding-bottom: 5px;
+    }
+
+    #rewardModal .modal-content {
+        padding: 10px;
+    }
+
+    #rewardModal .close {
+        position: absolute;
+        right: 15px;
+        top: 15px;
+        color: rgba(0, 0, 0, 0.5);
+        font-size: 1.3rem;
+        line-height: 20px;
+        cursor: pointer;
+    }
+
+    #rewardModal .reward-tabs {
+        margin: 0 auto;
+        width: 210px;
+    }
+
+    .reward-tabs .tabs {
+        height: 38px;
+        margin: 10px auto;
+        padding-left: 0;
+    }
+
+    .reward-tabs .tabs .tab {
+        height: 38px;
+        line-height: 38px;
+    }
+
+    .reward-tabs .tab a {
+        color: #fff;
+        background-color: #ccc;
+    }
+
+    .reward-tabs .tab a:hover {
+        color: #fff;
+    }
+
+    .reward-tabs .wechat-tab .active {
+        color: #fff;
+        background-color: #22AB38;
+    }
+
+    .reward-tabs .alipay-tab .active {
+        color: #fff;
+        background-color: #019FE8;
+    }
+
+    .reward-tabs .reward-img {
+        width: 210px;
+        height: 210px;
+    }
+</style>
+
+<div id="reward">
+    <a class="reward-link btn-floating btn-large waves-effect waves-light red">赏</a>
+
+    <!-- Modal Structure -->
+    <div id="rewardModal" class="modal">
+        <div class="modal-content">
+            <a class="close"><i class="fa fa-close"></i></a>
+            <h4 class="reward-title">你的赏识是我前进的动力</h4>
+            <div class="reward-content">
+                <div class="reward-tabs">
+                    <ul class="tabs">
+                        <li class="tab wechat-tab waves-effect waves-light"><a class="active" href="#wechat">微信</a></li>
+                        <li class="tab alipay-tab waves-effect waves-light"><a href="#alipay">支付宝</a></li>
+                    </ul>
+                    <div id="wechat">
+                        <img src="/medias/reward/wechat.png" class="reward-img" alt="微信打赏二维码">
+                    </div>
+                    <div id="alipay">
+                        <img src="/medias/reward/alipay.jpg" class="reward-img" alt="支付宝打赏二维码">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(function () {
+        $('#reward .reward-link').on('click', function () {
+            $('#rewardModal').openModal();
+        });
+
+        $('#rewardModal .close').on('click', function () {
+            $('#rewardModal').closeModal();
+        });
+    });
+</script>
+            
+
+            <link rel="stylesheet" type="text/css" href="/libs/share/css/share.min.css">
+
+<div id="article-share">
+    
+    <div class="social-share" data-disabled="qzone" data-wechat-qrcode-helper="<p>微信里点“发现”->“扫一扫”二维码便可查看分享。</p>"></div>
+    
+</div>
+
+<script src="/libs/share/js/social-share.min.js"></script>
+
+            <div class="reprint">
+                <p>
+                    <span class="reprint-tip">
+                        <i class="fa fa-exclamation-circle"></i>&nbsp;&nbsp;转载请注明:
+                    </span>
+                    <a href="https://libin7278.github.io" class="b-link-green">李彬博客专栏</a>
+                    <i class="fa fa-angle-right fa-lg fa-fw text-color"></i>
+                    <a href="/2019/02/21/androidtv/androidtv-kai-fa-zong-jie-jiao-dian/" class="b-link-green">Android TV 开发总结【焦点】</a>
+                </p>
+            </div>
+        </div>
+    </div>
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+<article id="prenext-posts" class="prev-next articles">
+    <div class="row article-row">
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge left-badge text-color">
+                <i class="fa fa-chevron-left"></i>&nbsp;上一篇</div>
+            <div class="card">
+                <a href="/2019/02/21/androidtv/androidtv-kai-fa-zong-jie-recycleview/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/19.jpg" class="responsive-img" alt="Android TV 开发总结【RecycleView】">
+                        
+                        <span class="card-title">Android TV 开发总结【RecycleView】</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary">在TV开发中RecycleView的使用是最让人头疼的经常会出现焦点丢失。因为当item未显示时不能获取焦点。所以当我们按上下键时经常丢失焦点或者焦点乱跳。要解决这个问题我们必须要手动控制RecyclerView 的按键和焦点移动。
+所以我</div>
+                    <div class="publish-info">
+                        <span class="publish-date">
+                            <i class="fa fa-clock-o fa-fw icon-date"></i>2019-02-21
+                        </span>
+                        <span class="publish-author">
+                            
+                            <i class="fa fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/AndroidTV/" class="post-category" target="_blank">
+                                    AndroidTV
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/AndroidTV/" target="_blank">
+                        <span class="chip bg-color">AndroidTV</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge right-badge text-color">
+                本篇&nbsp;<i class="fa fa-dot-circle-o"></i>
+            </div>
+            <div class="card">
+                <a href="/2019/02/21/androidtv/androidtv-kai-fa-zong-jie-jiao-dian/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/20.jpg" class="responsive-img" alt="Android TV 开发总结【焦点】">
+                        
+                        <span class="card-title">Android TV 开发总结【焦点】</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary">一、焦点获取首先，TV端的开发和我们手机端开发最大的区别就在于TV端存在焦点的概念。
+如下图：
+
+可想而知，手机端我们直接通过点击\长按某个区域处理响应事件处，但是TV端只能通过遥控器的上下左右来操控焦点，从而选中特定的区域处理相应事件。
+</div>
+                    <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="fa fa-clock-o fa-fw icon-date"></i>2019-02-21
+                            </span>
+                        <span class="publish-author">
+                            
+                            <i class="fa fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/AndroidTV/" class="post-category" target="_blank">
+                                    AndroidTV
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/AndroidTV/" target="_blank">
+                        <span class="chip bg-color">AndroidTV</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+    </div>
+</article>
+</div>
+
+
+<script>
+    $('#articleContent').on('copy', function (e) {
+        // IE8 or earlier browser is 'undefined'
+        if (typeof window.getSelection === 'undefined') return;
+
+        var selection = window.getSelection();
+        // if the selection is short let's not annoy our users.
+        if (('' + selection).length < Number.parseInt('120')) {
+            return;
+        }
+
+        // create a div outside of the visible area and fill it with the selected text.
+        var bodyElement = document.getElementsByTagName('body')[0];
+        var newdiv = document.createElement('div');
+        newdiv.style.position = 'absolute';
+        newdiv.style.left = '-99999px';
+        bodyElement.appendChild(newdiv);
+        newdiv.appendChild(selection.getRangeAt(0).cloneContents());
+
+        // we need a <pre> tag workaround.
+        // otherwise the text inside "pre" loses all the line breaks!
+        if (selection.getRangeAt(0).commonAncestorContainer.nodeName === 'PRE') {
+            newdiv.innerHTML = "<pre>" + newdiv.innerHTML + "</pre>";
+        }
+
+        var url = document.location.href;
+        newdiv.innerHTML += '<br />'
+            + '来源: 李彬博客专栏<br />'
+            + '作者: 先知先觉<br />'
+            + '链接: <a href="' + url + '">' + url + '</a><br />'
+            + '本文章著作权归作者李彬所有，任何形式的转载都请注明出处。https://libin7278.github.io/';
+
+        selection.selectAllChildren(newdiv);
+        window.setTimeout(function () {bodyElement.removeChild(newdiv);}, 200);
+    });
+</script>
+
+    
+
+</main>
+
+
+<footer class="page-footer bg-color">
+    <div class="container row center-align">
+        <div class="col s12 m8 l8 copy-right">
+            本站由&copy;<a href="https://github.com/libin7278" target="_blank">李彬</a>基于
+            <a href="https://hexo.io/" target="_blank">Hexo</a> 搭建.
+
+            
+			
+                <br>
+                
+                <span id="busuanzi_container_site_pv">
+                    <i class="fa fa-heart-o"></i>
+                    本站总访问量 <span id="busuanzi_value_site_pv" class="white-color"></span>
+                </span>
+                
+                
+                <span id="busuanzi_container_site_uv">
+                    <i class="fa fa-users"></i>
+                    次,&nbsp;访客数 <span id="busuanzi_value_site_uv" class="white-color"></span> 人.
+                </span>
+                
+            
+        </div>
+        <div class="col s12 m4 l4 social-link social-statis">
+    <a href="https://github.com/libin7278" class="tooltipped" target="_blank" data-tooltip="访问我的GitHub" data-position="top" data-delay="50">
+        <i class="fa fa-github"></i>
+    </a>
+
+
+
+    <a href="mailto:524607562@qq.com" class="tooltipped" target="_blank" data-tooltip="邮件联系我" data-position="top" data-delay="50">
+        <i class="fa fa-envelope-open"></i>
+    </a>
+
+
+
+    <a href="tencent://AddContact/?fromId=50&fromSubId=1&subcmd=all&uin=524607562" class="tooltipped" data-tooltip="QQ联系我: 524607562" data-position="top" data-delay="50">
+        <i class="fa fa-qq"></i>
+    </a>
+
+
+
+    <a href="https://github.com/libin7278/libin7278.github.io/blob/master/imgs/wx_self_qr.jpeg?raw=true" class="tooltipped" data-tooltip="伟大程序猿的诞生" data-position="top" data-delay="50">
+        <i class="fa fa-wechat"></i>
+    </a>
+
+
+</div>
+    </div>
+</footer>
+
+<div class="progress-bar"></div>
+
+
+<!-- 搜索遮罩框 -->
+<div id="searchModal" class="modal">
+    <div class="modal-content">
+        <div class="search-header">
+            <span class="title"><i class="fa fa-search"></i>&nbsp;&nbsp;搜索</span>
+            <input type="search" id="searchInput" name="s" placeholder="请输入搜索的关键字" class="search-input" autofocus>
+        </div>
+        <div id="searchResult"></div>
+    </div>
+</div>
+
+<script src="/js/search.js"></script>
+<script type="text/javascript">
+    searchFunc("/" + "search.xml", 'searchInput', 'searchResult');
+</script>
+<!-- 回到顶部按钮 -->
+<div id="backTop" class="top-scroll">
+    <a class="btn-floating btn-large waves-effect waves-light" href="#!">
+        <i class="fa fa-angle-up"></i>
+    </a>
+</div>
+
+
+<script src="/libs/materialize/js/materialize.min.js"></script>
+<script src="/libs/masonry/masonry.pkgd.min.js"></script>
+<script src="/libs/aos/aos.js"></script>
+<script src="/libs/scrollprogress/scrollProgress.min.js"></script>
+<script src="/libs/lightGallery/js/lightgallery-all.min.js"></script>
+<script src="/js/matery.js"></script>
+
+<!-- Global site tag (gtag.js) - Google Analytics -->
+
+
+
+    <script src="/libs/others/clicklove.js"></script>
+
+
+    <script async src="/libs/others/busuanzi.pure.mini.js"></script>
+
+
+</body>
+</html>

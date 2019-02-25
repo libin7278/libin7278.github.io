@@ -1,0 +1,816 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN">
+
+
+<head><meta name="generator" content="Hexo 3.8.0">
+    <meta charset="utf-8">
+    <meta name="keywords" content="Android TV开发总结【适配】, 李彬博客专栏">
+    <meta name="description" content="前言Android 的屏幕适配是指适配不同机顶盒 UI 框架层输出的分辨率和 dpi，而不是适配不同分辨率的电视机（电视机的适配交由机顶盒本身完成，和各个应用无关）
+之前的文章有介绍过适配相关的问题在和dimens插件，可以前往了解：
+An">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="renderer" content="webkit|ie-stand|ie-comp">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <title>Android TV开发总结【适配】 | 李彬博客专栏</title>
+    <link rel="icon" type="image/png" href="/favicon.png">
+
+    <link rel="stylesheet" type="text/css" href="/libs/awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="/libs/materialize/css/materialize.min.css">
+    <link rel="stylesheet" type="text/css" href="/libs/aos/aos.css">
+    <link rel="stylesheet" type="text/css" href="/libs/animate/animate.min.css">
+    <link rel="stylesheet" type="text/css" href="/libs/lightGallery/css/lightgallery.min.css">
+    <link rel="stylesheet" type="text/css" href="/css/matery.css">
+    <link rel="stylesheet" type="text/css" href="/css/my.css">
+    <style type="text/css">
+        
+    </style>
+
+    <script src="/libs/jquery/jquery-2.2.0.min.js"></script>
+<link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css"></head>
+
+
+<body>
+
+<header class="navbar-fixed">
+    <nav id="headNav" class="bg-color nav-transparent">
+        <div id="navContainer" class="container">
+            <div class="nav-wrapper">
+                <div class="brand-logo">
+                    <a href="/" class="waves-effect waves-light">
+                        
+                        <img src="/medias/logo.png" class="logo-img hide-on-small-only">
+                        
+                        <span class="logo-span">李彬博客专栏</span>
+                    </a>
+                </div>
+                
+
+<a href="#" data-activates="mobile-nav" class="button-collapse"><i class="fa fa-navicon"></i></a>
+<ul class="right">
+    
+    <li class="hide-on-med-and-down">
+        <a href="/" class="waves-effect waves-light">
+            
+            <i class="fa fa-home"></i>
+            
+            <span>首页</span>
+        </a>
+    </li>
+    
+    <li class="hide-on-med-and-down">
+        <a href="/tags" class="waves-effect waves-light">
+            
+            <i class="fa fa-tags"></i>
+            
+            <span>标签</span>
+        </a>
+    </li>
+    
+    <li class="hide-on-med-and-down">
+        <a href="/categories" class="waves-effect waves-light">
+            
+            <i class="fa fa-bookmark"></i>
+            
+            <span>分类</span>
+        </a>
+    </li>
+    
+    <li class="hide-on-med-and-down">
+        <a href="/archives" class="waves-effect waves-light">
+            
+            <i class="fa fa-archive"></i>
+            
+            <span>归档</span>
+        </a>
+    </li>
+    
+    <li class="hide-on-med-and-down">
+        <a href="/about" class="waves-effect waves-light">
+            
+            <i class="fa fa-user-circle-o"></i>
+            
+            <span>关于</span>
+        </a>
+    </li>
+    
+    <li class="hide-on-med-and-down">
+        <a href="/friends" class="waves-effect waves-light">
+            
+            <i class="fa fa-address-book"></i>
+            
+            <span>友情链接</span>
+        </a>
+    </li>
+    
+    <li>
+        <a id="toggleSearch" class="waves-effect waves-light">
+            <i id="searchIcon" class="mdi-action-search" title="搜索"></i>
+        </a>
+    </li>
+
+</ul>
+
+<div class="side-nav" id="mobile-nav">
+
+    <div class="mobile-head bg-color">
+        
+        <img src="/medias/logo.png" class="logo-img circle responsive-img">
+        
+        <div class="logo-name">李彬博客专栏</div>
+        <div class="logo-desc">
+            
+            一切的创造，源于热爱，回溯最初，在最简洁中传递情感，在代码里游戈人生...
+            
+        </div>
+    </div>
+
+    
+
+    <ul class="menu-list mobile-menu-list">
+        
+        <li>
+            <a href="/" class="waves-effect waves-light">
+                
+                <i class="fa fa-fw fa-home"></i>
+                
+                首页
+            </a>
+        </li>
+        
+        <li>
+            <a href="/tags" class="waves-effect waves-light">
+                
+                <i class="fa fa-fw fa-tags"></i>
+                
+                标签
+            </a>
+        </li>
+        
+        <li>
+            <a href="/categories" class="waves-effect waves-light">
+                
+                <i class="fa fa-fw fa-bookmark"></i>
+                
+                分类
+            </a>
+        </li>
+        
+        <li>
+            <a href="/archives" class="waves-effect waves-light">
+                
+                <i class="fa fa-fw fa-archive"></i>
+                
+                归档
+            </a>
+        </li>
+        
+        <li>
+            <a href="/about" class="waves-effect waves-light">
+                
+                <i class="fa fa-fw fa-user-circle-o"></i>
+                
+                关于
+            </a>
+        </li>
+        
+        <li>
+            <a href="/friends" class="waves-effect waves-light">
+                
+                <i class="fa fa-fw fa-address-book"></i>
+                
+                友情链接
+            </a>
+        </li>
+        
+        
+        <li><div class="divider"></div></li>
+        <li>
+            <a href="https://github.com/blinkfox/hexo-theme-matery" class="waves-effect waves-light" target="_blank">
+                <i class="fa fa-github-square fa-fw"></i>Fork Me
+            </a>
+        </li>
+        
+    </ul>
+
+    <div class="social-link">
+    <a href="https://github.com/libin7278" class="tooltipped" target="_blank" data-tooltip="访问我的GitHub" data-position="top" data-delay="50">
+        <i class="fa fa-github"></i>
+    </a>
+
+
+
+    <a href="mailto:524607562@qq.com" class="tooltipped" target="_blank" data-tooltip="邮件联系我" data-position="top" data-delay="50">
+        <i class="fa fa-envelope-open"></i>
+    </a>
+
+
+
+    <a href="tencent://AddContact/?fromId=50&fromSubId=1&subcmd=all&uin=524607562" class="tooltipped" data-tooltip="QQ联系我: 524607562" data-position="top" data-delay="50">
+        <i class="fa fa-qq"></i>
+    </a>
+
+
+
+    <a href="https://github.com/libin7278/libin7278.github.io/blob/master/imgs/wx_self_qr.jpeg?raw=true" class="tooltipped" data-tooltip="伟大程序猿的诞生" data-position="top" data-delay="50">
+        <i class="fa fa-wechat"></i>
+    </a>
+
+
+</div>
+</div>
+
+            </div>
+        </div>
+
+        
+        <style>
+    .nav-transparent .github-corner {
+        display: none !important;
+    }
+
+    .github-corner {
+        position: absolute;
+        z-index: 10;
+        top: 0;
+        right: 0;
+        border: 0;
+        transform: scale(1.1);
+    }
+
+    .github-corner svg {
+        color: #0f9d58;
+        fill: #fff;
+        height: 64px;
+        width: 64px;
+    }
+
+    .github-corner:hover .octo-arm {
+        animation: a 0.56s ease-in-out;
+    }
+
+    .github-corner .octo-arm {
+        animation: none;
+    }
+
+    @keyframes a {
+        0%,
+        to {
+            transform: rotate(0);
+        }
+        20%,
+        60% {
+            transform: rotate(-25deg);
+        }
+        40%,
+        80% {
+            transform: rotate(10deg);
+        }
+    }
+</style>
+
+<a href="https://github.com/blinkfox/hexo-theme-matery" class="github-corner tooltipped hide-on-med-and-down" target="_blank" data-tooltip="Fork Me" data-position="left" data-delay="50">
+    <svg viewbox="0 0 250 250" aria-hidden="true">
+        <path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"/>
+        <path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"/>
+        <path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"/>
+    </svg>
+</a>
+        
+    </nav>
+</header>
+
+
+
+
+
+<div class="bg-cover post-cover" style="background-image: url('/medias/featureimages/22.jpg')">
+    <div class="container">
+        <div class="row">
+            <div class="col s12 m12 l12">
+                <div class="brand">
+                    <div class="description center-align post-title">
+                        Android TV开发总结【适配】
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<main class="container content">
+
+    
+    <!-- 文章内容详情 -->
+<div id="artDetail">
+    <div class="card">
+        <div class="card-content article-info">
+            <div class="row tag-cate">
+                <div class="col s7">
+                    
+                    <div class="article-tag">
+                        
+                            <a href="/tags/AndroidTV/" target="_blank">
+                                <span class="chip bg-color">AndroidTV</span>
+                            </a>
+                        
+                    </div>
+                    
+                </div>
+                <div class="col s5 right-align">
+                    
+                    <div class="post-cate">
+                        <i class="fa fa-bookmark fa-fw icon-category"></i>
+                        
+                            <a href="/categories/AndroidTV/" class="post-category" target="_blank">
+                                AndroidTV
+                            </a>
+                        
+                    </div>
+                    
+                </div>
+            </div>
+
+            <div class="post-info">
+                <div class="post-date info-break-policy">
+                    <i class="fa fa-calendar-minus-o fa-fw"></i>发布日期:&nbsp;&nbsp;
+                    2019-02-21
+                </div>
+
+                
+				
+				
+                    <div id="busuanzi_container_page_pv" class="info-break-policy">
+                        <i class="fa fa-eye fa-fw"></i>阅读次数:&nbsp;&nbsp;
+                        <span id="busuanzi_value_page_pv"></span>
+                    </div>
+				
+            </div>
+        </div>
+        <hr class="clearfix">
+        <div class="card-content article-card-content">
+            <div id="articleContent">
+                <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>Android 的屏幕适配是指适配不同机顶盒 UI 框架层输出的分辨率和 dpi，而不是适配不同分辨率的电视机（电视机的适配交由机顶盒本身完成，和各个应用无关）</p>
+<p>之前的文章有介绍过适配相关的问题在和dimens插件，可以前往了解：</p>
+<p><a href="https://blog.csdn.net/github_33304260/article/details/76383298" target="_blank" rel="noopener">Android完美适配dimens.xml脚本</a></p>
+<p><a href="https://blog.csdn.net/github_33304260/article/details/76805304" target="_blank" rel="noopener">打造AS酷炫dimens适配插件</a></p>
+<h1 id="背景知识"><a href="#背景知识" class="headerlink" title="背景知识"></a>背景知识</h1><h2 id="1、什么是屏幕尺寸、屏幕分辨率、屏幕像素密度？"><a href="#1、什么是屏幕尺寸、屏幕分辨率、屏幕像素密度？" class="headerlink" title="1、什么是屏幕尺寸、屏幕分辨率、屏幕像素密度？"></a>1、什么是屏幕尺寸、屏幕分辨率、屏幕像素密度？</h2><blockquote>
+<ul>
+<li>屏幕尺寸是指屏幕对角线的长度。单位是英寸，1英寸=2.54厘米；</li>
+<li>屏幕分辨率是指在横纵向上的像素点数，单位是px，1px=1像素点，一般是纵向像素横向像素，如1280×720；</li>
+<li>屏幕像素密度是指每英寸上的像素点数，单位是dpi，即“dot per inch”的缩写，像素密度和屏幕尺寸和屏幕分辨率有关;</li>
+</ul>
+</blockquote>
+<p>像素密度公式：<br><img src="https://img-blog.csdn.net/20170730155613580?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvZ2l0aHViXzMzMzA0MjYw/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" width="50%" alt></p>
+<p>例如：</p>
+<table><br><thead><br><tr><br>  <th align="center">600<em>1024的8寸屏幕</em></th><br>  <th align="center">7201280的8寸屏幕</th><br></tr><br></thead><br><tbody><tr><br>  <td align="center"><img src="https://img-blog.csdn.net/20170730155942055?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvZ2l0aHViXzMzMzA0MjYw/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述" title></td><br>  <td align="center"><img src="https://img-blog.csdn.net/20170730155954301?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvZ2l0aHViXzMzMzA0MjYw/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述" title></td><br></tr><br></tbody><br></table>
+
+<h2 id="2、什么是dp、dip、dpi、sp、px？之间的关系是什么？"><a href="#2、什么是dp、dip、dpi、sp、px？之间的关系是什么？" class="headerlink" title="2、什么是dp、dip、dpi、sp、px？之间的关系是什么？"></a>2、什么是dp、dip、dpi、sp、px？之间的关系是什么？</h2><blockquote>
+<ul>
+<li>dip：Density Independent Pixels（密度无关像素）的缩写。以160dpi为基准，1dp=1px</li>
+<li>dp：同dip</li>
+<li>dpi：屏幕像素密度的单位，“dot per inch”的缩写</li>
+<li>px：像素，物理上的绝对单位</li>
+<li>sp：Scale-Independent Pixels的缩写，可以根据文字大小首选项自动进行缩放。Google推荐我们使用12sp以上的大小，通常可以使用12sp，14sp，18sp，22sp，最好不要使用奇数和小数。</li>
+</ul>
+</blockquote>
+<p>如图：<br><img src="http://img.mukewang.com/564d3ae300018ec605780445.png" width="50%" alt></p>
+<h2 id="3、什么是mdpi、hdpi、xdpi、xxdpi、xxxdpi？如何计算和区分？"><a href="#3、什么是mdpi、hdpi、xdpi、xxdpi、xxxdpi？如何计算和区分？" class="headerlink" title="3、什么是mdpi、hdpi、xdpi、xxdpi、xxxdpi？如何计算和区分？"></a>3、什么是mdpi、hdpi、xdpi、xxdpi、xxxdpi？如何计算和区分？</h2><p>在Google官方开发文档中，说明了 mdpi：hdpi：xhdpi：xxhdpi：xxxhdpi=2：3：4：6：8 的尺寸比例进行缩放。例如，一个图标的大小为48×48dp，表示在mdpi上，实际大小为48×48px，在hdpi像素密度上，实际尺寸为mdpi上的1.5倍，即72×72px，以此类推。</p>
+<h1 id="适配前准备工作"><a href="#适配前准备工作" class="headerlink" title="适配前准备工作"></a>适配前准备工作</h1><h2 id="1、获取设备分辨率和dpi"><a href="#1、获取设备分辨率和dpi" class="headerlink" title="1、获取设备分辨率和dpi"></a>1、获取设备分辨率和dpi</h2><p>可以通过以下代码获取机顶盒UI框架层实际输出的分辨率 (width * height)，以及输出的像素密度和像素密度比值</p>
+<pre><code>DisplayMetrics dm = new DisplayMetrics();
+getWindowManager().getDefaultDisplay().getMetrics(dm);//display = getWindowManager().getDefaultDisplay();display.getMetrics(dm)（把屏幕尺寸信息赋值给DisplayMetrics dm）;
+int width = dm.widthPixels;
+int height = dm.heightPixels;
+// 屏幕密度（1.0 / 1.5 / 2.0）
+float density = dm.density;
+// 屏幕密度DPI（160 / 240 / 320）
+int densityDpi = dm.densityDpi;
+Logger.e(&quot;当前设备的分辨率宽=（&quot; + width + &quot;*  高度=&quot; + height + &quot;）  densityDpi =&quot; + densityDpi + &quot;  density=&quot; + density);
+</code></pre><p>输出：</p>
+<pre><code>当前设备的分辨 （率宽=1920*高度=1080）  densityDpi =160  density=1.0
+</code></pre><h2 id="2、与UI沟通如何出图？"><a href="#2、与UI沟通如何出图？" class="headerlink" title="2、与UI沟通如何出图？"></a>2、与UI沟通如何出图？</h2><blockquote>
+<ul>
+<li>切图应该放哪个 drawable 文件夹下，切多大？</li>
+<li>UI 应该以什么标准出图？</li>
+<li>UI 出的标注图 px 和 dp之间如何转换？</li>
+</ul>
+</blockquote>
+<p>举个例子：<br>某款盒子通过上述代码获得分辨率为1920<em>1080 ，DPI为160dpi，盒子连接的是4K的电视分辨率为3840</em>2160：</p>
+<blockquote>
+<ul>
+<li>通过160dpi，根据上表可以得知图片放在<code>drawable-mdpi</code>文件夹下</li>
+<li>在只考虑当前设备的情况下，UI应该以盒子的像素1920<em>1080出图因为，app 在机顶盒上实际输出的像素就只有1920</em>1080像素，而在4K电视上4K显示效果是机顶盒将系统UI框架的 1920<em>1080 像素的输出优化放大道 3840 </em> 2160 像素</li>
+<li>在160dpi情况下，px与dp是1倍的关系，所以1px = 1dp</li>
+</ul>
+</blockquote>
+<h1 id="适配规则"><a href="#适配规则" class="headerlink" title="适配规则"></a>适配规则</h1><p>了解了基本知识和出图标准接下来我们来看一下如何适配：</p>
+<p>如果此时我们又有一台设备分辨率为1920<em>1080 ，DPI为213dpi，盒子连接的是4K的电视分辨率为3840</em>2160：</p>
+<p>我们可以计算一下倍数关系 213/160 = 1.33 ，我们发现并不是上面表格中提供的参数，是个非常奇葩的数字，此时我们计算一下宽度的dp值：1080/1.33=812，所以我们图片和资源文件可以放在<code>values-sw812dp</code>和<code>drawable-sw812dp</code>下面。<br>此时dimens文件中的数值也需要转换，两个相差1.33倍，那么 {<strong><em>现在的dimens数值=(原来的dimens数值 /1.33)</em></strong>}<br>建议使用<a href="https://blog.csdn.net/github_33304260/article/details/76805304" target="_blank" rel="noopener">打造AS酷炫dimens适配插件</a> 本人的插件，方便做dimens适配哦。</p>
+<p>这里只是教大家了一种机型的适配，实际开发中可能会遇到更多奇葩的机型，大家也可以直接使用<code>values-1920x1080</code>或者<code>values-1920x1080-mdpi</code>或者<code>values-sw812dp-mdpi</code>这种组合也可以，道理都是一样的。</p>
+<p>详细过程可以参考官方教程<a href="https://developer.android.google.cn/guide/practices/screens_support" target="_blank" rel="noopener">屏幕兼容性概览</a></p>
+<table><br>  <tr><th>屏幕配置</th><th>限定符值</th><th>说明</th></tr><br>  <tr><td>smallestWidth</td><br>      <td><code>sw&lt;N&gt;dp</code><br><br><br>        示例：<br><br>        <code>sw600dp</code><br><br>        <code>sw720dp</code><br><br>      </td><br>      <td><br>        <p>屏幕的基本尺寸，由可用屏幕区域的最小尺寸指定。<br>具体来说，设备的 smallestWidth<br>是屏幕可用高度和宽度的最小尺寸（您也可以将其视为屏幕的“最小可能宽度”）。无论屏幕的当前方向如何，您均可使用此限定符确保应用<br>UI 的可用宽度至少为<br><code>&lt;N&gt;</code>dp。</p><br>        <p>例如，如果布局要求屏幕区域的最小尺寸始终至少为<br>600 dp，则可使用此限定符创建布局资源 <code>res/layout-sw600dp/</code>。仅当可用屏幕的最小尺寸至少为<br>600dp 时，系统才会使用这些资源，而不考虑<br>600dp 所代表的边是用户所认为的高度还是宽度。smallestWidth 是设备的固定屏幕尺寸特性；<strong>设备的 smallestWidth 不会随屏幕方向的变化而改变</strong>。<br></p><br>  <p>设备的 smallestWidth 将屏幕装饰元素和系统 UI 考虑在内。例如，如果设备的屏幕上有一些永久性 UI 元素占据沿 smallestWidth 轴的空间，则系统会声明 smallestWidth 小于实际屏幕尺寸，因为这些屏幕像素不适用于您的 UI。<br><br><br></p><br>  <p>这可替代通用化的屏幕尺寸限定符（小、正常、大、超大），<br>可让您为 UI 可用的有效尺寸定义不连续的数值。<br>使用 smallestWidth 定义一般屏幕尺寸很有用，因为宽度<br>通常是设计布局时的驱动因素。UI 经常会垂直滚动，但<br>对其水平需要的最小空间具有非常硬性的限制。可用的宽度也是<br>确定是否对手机使用单窗格布局或是对平板电脑使用多窗格布局<br>的关键因素。因此，您可能最关注每部<br>设备上的最小可能宽度。</p><br>    </td><br>  </tr><br>    <tr><br>      <td>可用屏幕宽度</td><br>      <td><code>w&lt;N&gt;dp</code><br><br><br>        示例：<br><br>        <code>w720dp</code><br><br>        <code>w1024dp</code><br><br>      </td><br>      <td><br>        <p>指定资源应该使用的最小可用宽度（dp 单位）<br>&mdash; 由 <code>&lt;N&gt;</code> 值定义。当屏幕的方向在横屏与竖屏之间切换时，系统对应的<br>宽度值将会变化，以<br>反映 UI 可用的当前实际宽度。</p><br>        <p>这对于确定是否使用多窗格布局往往很有用，因为即使是在<br>平板电脑设备上，您也通常不希望竖屏像横屏一样<br>使用多窗格布局。因此，您可以使用此功能指定布局需要的最小宽度，而<br>无需同时使用屏幕尺寸和方向限定符。</p><br>      </td><br>    </tr><br>    <tr><br>      <td>可用屏幕高度</td><br>      <td><code>h&lt;N&gt;dp</code><br><br><br>        示例：<br><br>        <code>h720dp</code><br><br>        <code>h1024dp</code><br><br>        等等<br>      </td><br>      <td><br>        <p>指定资源应该使用的最小屏幕高度（dp 单位）<br>&mdash; 由 <code>&lt;N&gt;</code> 值定义。当屏幕的方向在横屏与竖屏之间切换时，系统<br>对应的高度值将会变化，以<br>反映 UI 可用的当前实际高度。</p><br>        <p>使用此方式定义<br>布局需要的高度很有用，它与使用 <code>w&lt;N&gt;dp</code> 定义<br>所需宽度的方式相同，无需同时使用屏幕尺寸和方向限定符。<br>但大多数应用不需要此限定符，考虑到 UI 经常垂直滚动，<br>因此高度更弹性，而宽度更刚性。</p><br>      </td><br>    </tr><br></table>
+
+<p><strong>～～号外～～福利～～号外～～</strong><br><strong>程序员的福音：</strong> “老曾筋骨祛痛贴”，百年祖传配方，专治<em>腰间盘</em>、<em>肩周</em>、<em>颈椎</em>、<em>坐骨神经</em>、<em>腰腿疼痛</em>等，博主亲测效果非常棒，因长期久坐写代码，坐姿不规范导致脖子疼，腰椎疼，用过之后疼痛逐渐缓解，现在已无任何疼痛，用过后让你写代码一身轻松，so easy，妈妈再也不用担心我们写代码了。<br>购买链接： <a href="https://k.weidian.com/tja7GYzB" target="_blank" rel="noopener">https://k.weidian.com/tja7GYzB</a><br><img src="https://img-blog.csdnimg.cn/20190213230334214.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2dpdGh1Yl8zMzMwNDI2MA==" width="40%" alt></p>
+<p><strong>扫码下方二维码，关注公众号“伟大程序猿的诞生“，回复“膏药”领取优惠券</strong><br><strong>扫码关注公众号“伟大程序猿的诞生“，更多干货新鲜文章等着你～</strong><br><img src="http://img.blog.csdn.net/20171218195006434?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvZ2l0aHViXzMzMzA0MjYw/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" width="40%" alt><br><strong>公众号回复“资料获取”，获取更多干货哦～</strong><br><strong>公众号回复“膏药”，领取优惠券哦～</strong></p>
+<p><strong><em>有问题添加本人微信号“fenghuokeji996” 或扫描博客导航栏本人二维码</em></strong></p>
+
+            </div>
+            <hr>
+
+            
+            <style>
+    #reward {
+        margin: 40px 0;
+        text-align: center;
+    }
+
+    #reward .reward-link {
+        font-size: 1.88rem;
+    }
+
+    #reward .btn-floating:hover {
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2), 0 5px 15px rgba(0, 0, 0, 0.2);
+    }
+
+    #rewardModal {
+        width: 320px;
+        height: 350px;
+    }
+
+    #rewardModal .reward-title {
+        margin: 15px auto;
+        padding-bottom: 5px;
+    }
+
+    #rewardModal .modal-content {
+        padding: 10px;
+    }
+
+    #rewardModal .close {
+        position: absolute;
+        right: 15px;
+        top: 15px;
+        color: rgba(0, 0, 0, 0.5);
+        font-size: 1.3rem;
+        line-height: 20px;
+        cursor: pointer;
+    }
+
+    #rewardModal .reward-tabs {
+        margin: 0 auto;
+        width: 210px;
+    }
+
+    .reward-tabs .tabs {
+        height: 38px;
+        margin: 10px auto;
+        padding-left: 0;
+    }
+
+    .reward-tabs .tabs .tab {
+        height: 38px;
+        line-height: 38px;
+    }
+
+    .reward-tabs .tab a {
+        color: #fff;
+        background-color: #ccc;
+    }
+
+    .reward-tabs .tab a:hover {
+        color: #fff;
+    }
+
+    .reward-tabs .wechat-tab .active {
+        color: #fff;
+        background-color: #22AB38;
+    }
+
+    .reward-tabs .alipay-tab .active {
+        color: #fff;
+        background-color: #019FE8;
+    }
+
+    .reward-tabs .reward-img {
+        width: 210px;
+        height: 210px;
+    }
+</style>
+
+<div id="reward">
+    <a class="reward-link btn-floating btn-large waves-effect waves-light red">赏</a>
+
+    <!-- Modal Structure -->
+    <div id="rewardModal" class="modal">
+        <div class="modal-content">
+            <a class="close"><i class="fa fa-close"></i></a>
+            <h4 class="reward-title">你的赏识是我前进的动力</h4>
+            <div class="reward-content">
+                <div class="reward-tabs">
+                    <ul class="tabs">
+                        <li class="tab wechat-tab waves-effect waves-light"><a class="active" href="#wechat">微信</a></li>
+                        <li class="tab alipay-tab waves-effect waves-light"><a href="#alipay">支付宝</a></li>
+                    </ul>
+                    <div id="wechat">
+                        <img src="/medias/reward/wechat.png" class="reward-img" alt="微信打赏二维码">
+                    </div>
+                    <div id="alipay">
+                        <img src="/medias/reward/alipay.jpg" class="reward-img" alt="支付宝打赏二维码">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(function () {
+        $('#reward .reward-link').on('click', function () {
+            $('#rewardModal').openModal();
+        });
+
+        $('#rewardModal .close').on('click', function () {
+            $('#rewardModal').closeModal();
+        });
+    });
+</script>
+            
+
+            <link rel="stylesheet" type="text/css" href="/libs/share/css/share.min.css">
+
+<div id="article-share">
+    
+    <div class="social-share" data-disabled="qzone" data-wechat-qrcode-helper="<p>微信里点“发现”->“扫一扫”二维码便可查看分享。</p>"></div>
+    
+</div>
+
+<script src="/libs/share/js/social-share.min.js"></script>
+
+            <div class="reprint">
+                <p>
+                    <span class="reprint-tip">
+                        <i class="fa fa-exclamation-circle"></i>&nbsp;&nbsp;转载请注明:
+                    </span>
+                    <a href="https://libin7278.github.io" class="b-link-green">李彬博客专栏</a>
+                    <i class="fa fa-angle-right fa-lg fa-fw text-color"></i>
+                    <a href="/2019/02/21/androidtv/androidtv-kai-fa-zong-jie-gua-pei/" class="b-link-green">Android TV开发总结【适配】</a>
+                </p>
+            </div>
+        </div>
+    </div>
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+<article id="prenext-posts" class="prev-next articles">
+    <div class="row article-row">
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge left-badge text-color">
+                <i class="fa fa-chevron-left"></i>&nbsp;上一篇</div>
+            <div class="card">
+                <a href="/2019/02/22/wei-xin-xiao-cheng-xu/wei-xin-xiao-cheng-xu-kai-fa-chu-ti-yan-yi/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/15.jpg" class="responsive-img" alt="微信小程序开发--【初体验】(一)">
+                        
+                        <span class="card-title">微信小程序开发--【初体验】(一)</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary">第一步–注册账号https://mp.weixin.qq.com/cgi-bin/registermidpage?action=index&amp;lang=zh_CN&amp;token=
+
+切记：订阅号、服务号、小程序、企业微信，以上四</div>
+                    <div class="publish-info">
+                        <span class="publish-date">
+                            <i class="fa fa-clock-o fa-fw icon-date"></i>2019-02-22
+                        </span>
+                        <span class="publish-author">
+                            
+                            <i class="fa fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/微信小程序/" class="post-category" target="_blank">
+                                    微信小程序
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/微信小程序/" target="_blank">
+                        <span class="chip bg-color">微信小程序</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge right-badge text-color">
+                下一篇&nbsp;<i class="fa fa-chevron-right"></i>
+            </div>
+            <div class="card">
+                <a href="/2019/02/21/wei-xin-xiao-cheng-xu/wei-xin-xiao-cheng-xu-kai-fa-app-object-han-shu-jie-shao-san/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/16.jpg" class="responsive-img" alt="微信小程序开发--【APP(Object)函数介绍】(三)">
+                        
+                        <span class="card-title">微信小程序开发--【APP(Object)函数介绍】(三)</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary">什么是APP(Object)App()` 函数用来注册一个小程序。接受一个 Object 参数，其指定小程序的生命周期回调等。
+所以也被称为注册程序
+App() 必须在 app.js 中调用，必须调用且只能调用一次。不然会出现无法预期的后果</div>
+                    <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="fa fa-clock-o fa-fw icon-date"></i>2019-02-21
+                            </span>
+                        <span class="publish-author">
+                            
+                            <i class="fa fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/微信小程序/" class="post-category" target="_blank">
+                                    微信小程序
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/微信小程序/" target="_blank">
+                        <span class="chip bg-color">微信小程序</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+    </div>
+</article>
+</div>
+
+
+<script>
+    $('#articleContent').on('copy', function (e) {
+        // IE8 or earlier browser is 'undefined'
+        if (typeof window.getSelection === 'undefined') return;
+
+        var selection = window.getSelection();
+        // if the selection is short let's not annoy our users.
+        if (('' + selection).length < Number.parseInt('120')) {
+            return;
+        }
+
+        // create a div outside of the visible area and fill it with the selected text.
+        var bodyElement = document.getElementsByTagName('body')[0];
+        var newdiv = document.createElement('div');
+        newdiv.style.position = 'absolute';
+        newdiv.style.left = '-99999px';
+        bodyElement.appendChild(newdiv);
+        newdiv.appendChild(selection.getRangeAt(0).cloneContents());
+
+        // we need a <pre> tag workaround.
+        // otherwise the text inside "pre" loses all the line breaks!
+        if (selection.getRangeAt(0).commonAncestorContainer.nodeName === 'PRE') {
+            newdiv.innerHTML = "<pre>" + newdiv.innerHTML + "</pre>";
+        }
+
+        var url = document.location.href;
+        newdiv.innerHTML += '<br />'
+            + '来源: 李彬博客专栏<br />'
+            + '作者: 先知先觉<br />'
+            + '链接: <a href="' + url + '">' + url + '</a><br />'
+            + '本文章著作权归作者李彬所有，任何形式的转载都请注明出处。https://libin7278.github.io/';
+
+        selection.selectAllChildren(newdiv);
+        window.setTimeout(function () {bodyElement.removeChild(newdiv);}, 200);
+    });
+</script>
+
+    
+
+</main>
+
+
+<footer class="page-footer bg-color">
+    <div class="container row center-align">
+        <div class="col s12 m8 l8 copy-right">
+            本站由&copy;<a href="https://github.com/libin7278" target="_blank">李彬</a>基于
+            <a href="https://hexo.io/" target="_blank">Hexo</a> 搭建.
+
+            
+			
+                <br>
+                
+                <span id="busuanzi_container_site_pv">
+                    <i class="fa fa-heart-o"></i>
+                    本站总访问量 <span id="busuanzi_value_site_pv" class="white-color"></span>
+                </span>
+                
+                
+                <span id="busuanzi_container_site_uv">
+                    <i class="fa fa-users"></i>
+                    次,&nbsp;访客数 <span id="busuanzi_value_site_uv" class="white-color"></span> 人.
+                </span>
+                
+            
+        </div>
+        <div class="col s12 m4 l4 social-link social-statis">
+    <a href="https://github.com/libin7278" class="tooltipped" target="_blank" data-tooltip="访问我的GitHub" data-position="top" data-delay="50">
+        <i class="fa fa-github"></i>
+    </a>
+
+
+
+    <a href="mailto:524607562@qq.com" class="tooltipped" target="_blank" data-tooltip="邮件联系我" data-position="top" data-delay="50">
+        <i class="fa fa-envelope-open"></i>
+    </a>
+
+
+
+    <a href="tencent://AddContact/?fromId=50&fromSubId=1&subcmd=all&uin=524607562" class="tooltipped" data-tooltip="QQ联系我: 524607562" data-position="top" data-delay="50">
+        <i class="fa fa-qq"></i>
+    </a>
+
+
+
+    <a href="https://github.com/libin7278/libin7278.github.io/blob/master/imgs/wx_self_qr.jpeg?raw=true" class="tooltipped" data-tooltip="伟大程序猿的诞生" data-position="top" data-delay="50">
+        <i class="fa fa-wechat"></i>
+    </a>
+
+
+</div>
+    </div>
+</footer>
+
+<div class="progress-bar"></div>
+
+
+<!-- 搜索遮罩框 -->
+<div id="searchModal" class="modal">
+    <div class="modal-content">
+        <div class="search-header">
+            <span class="title"><i class="fa fa-search"></i>&nbsp;&nbsp;搜索</span>
+            <input type="search" id="searchInput" name="s" placeholder="请输入搜索的关键字" class="search-input" autofocus>
+        </div>
+        <div id="searchResult"></div>
+    </div>
+</div>
+
+<script src="/js/search.js"></script>
+<script type="text/javascript">
+    searchFunc("/" + "search.xml", 'searchInput', 'searchResult');
+</script>
+<!-- 回到顶部按钮 -->
+<div id="backTop" class="top-scroll">
+    <a class="btn-floating btn-large waves-effect waves-light" href="#!">
+        <i class="fa fa-angle-up"></i>
+    </a>
+</div>
+
+
+<script src="/libs/materialize/js/materialize.min.js"></script>
+<script src="/libs/masonry/masonry.pkgd.min.js"></script>
+<script src="/libs/aos/aos.js"></script>
+<script src="/libs/scrollprogress/scrollProgress.min.js"></script>
+<script src="/libs/lightGallery/js/lightgallery-all.min.js"></script>
+<script src="/js/matery.js"></script>
+
+<!-- Global site tag (gtag.js) - Google Analytics -->
+
+
+
+    <script src="/libs/others/clicklove.js"></script>
+
+
+    <script async src="/libs/others/busuanzi.pure.mini.js"></script>
+
+
+</body>
+</html>
